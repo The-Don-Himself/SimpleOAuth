@@ -1,28 +1,37 @@
-# Getting started with PHP on Bluemix
+# Simple OAuth
 
-This guide will take you through the steps to get started with a simple PHP application in Bluemix and help you:
-- Set up a development environment
-- Download sample code
-- Run the application locally
-- Run the application on Bluemix Cloud Foundry
-- Add a Bluemix Database service
-- Connect to the database from your local application
+This repository contains sample code to implement a simplified OAuth system in PHP using MongoDB and MySQL. You can read more about it on the [Compose Blog](https://compose.com/articles/search/?s=simpleoauth) which I suggest you read first.
+
+The code here is based on the  nifty [Embersy](https://github.com/campus-discounts/embersy) kickstart package for building ambitious web app. You can download that package and replace the backend with this one.
+
+## Intro
+
+This repo contains the backend code for a sample blog app. The app has a user base and allows third party apps to hook into system and perform actions on users behalf. 
+
+
+## Databases
+
+The app uses MySQL and MongoDB only but can be easily extended to add support for Redis to cache MySQL and Elasticsearch for, well you know, search.
+
+## Frameworks & Libraries
+
+The backend is powered by Symfony and uses Doctrine ORM and Doctrine ODM to persist and query data. A listener is also bounded to some Doctrine ODM query events to automatically populate query results with data via Doctrine ORM. 
 
 ## Prerequisites
 
 You'll need the following:
-* [Bluemix account](https://console.ng.bluemix.net/registration/)
-* [Cloud Foundry CLI](https://github.com/cloudfoundry/cli#downloads)
 * [Git](https://git-scm.com/downloads)
 * [PHP](http://php.net/downloads.php)
 * [Composer](https://getcomposer.org/download/)
+* [MongoDB](https://www.mongodb.com/download-center)
+* [MySQL](https://dev.mysql.com/downloads)
 
 ## 1. Clone the sample app
 
 Now you're ready to start working with the app. Clone the repo and change the directory to where the sample app is located.
   ```
-git clone https://github.com/IBM-Bluemix/get-started-php
-cd get-started-php
+git clone https://github.com/campus-discounts/SimpleOAuth
+cd SimpleOAuth
   ```
 
 ## 2. Run the app locally
@@ -34,96 +43,28 @@ php composer.phar install
 
 Run the app
   ```
-php -S localhost:8000
+php bin/console server:run
   ```
 
-View your app at: http://localhost:8000
+Backend is available at: http://localhost:8000
 
-## 3. Prepare the app for deployment
+Dev environment is by default protected using basic auth with credentials
 
-To deploy to Bluemix, it can be helpful to set up a manifest.yml file. One is provided for you with the sample. Take a moment to look at it.
+username: backendadmin
+password: backendpassword
+  
+## 3. Getting started
 
-The manifest.yml includes basic information about your app, such as the name, how much memory to allocate for each instance and the route. In this manifest.yml **random-route: true** generates a random route for your app to prevent your route from colliding with others.  You can replace **random-route: true** with **host: myChosenHostName**, supplying a host name of your choice. [Learn more...](/docs/manageapps/depapps.html#appmanifest)
- ```
- applications:
- - name: GetStartedPHP
-   random-route: true
-   memory: 128M
- ```
+* Please take a look at the source code, it is heavily commented alternatively visit http://localhost:8000/api/doc to get an overview of some of the api endpoints
 
-## 4. Deploy the app
+Create a sample user by posting data to endpoint http://localhost:8000/api/accounts
+Create an app developer profile by posting data to endpoint http://localhost:8000/api/developers
+Use developer profile to create an app by posting data to endpoint http://localhost:8000/api/developers/{developer_id}/apps
+Create a sample blog article by posting data to endpoint http://localhost:8000/api/articles
+Add to article by posting data to endpoint http://localhost:8000/api/articles/{article_id}/comments
+Install an app by posting data to endpoint http://localhost:8000/api/apps/{app_id}/install
+Try use app to post a new comment by posting a mutation to endpoint http://localhost:8000/graphql
+Notice that permissions were denied.
+Add permissions to app as described in the article.
+Try posting the comment again and notice success this time.
 
-You can use the Cloud Foundry CLI to deploy apps.
-
-Choose your API endpoint
-   ```
-cf api <API-endpoint>
-   ```
-   {: pre}
-
-Replace the *API-endpoint* in the command with an API endpoint from the following list.
-
-|URL                             |Region          |
-|:-------------------------------|:---------------|
-| https://api.ng.bluemix.net     | US South       |
-| https://api.eu-gb.bluemix.net  | United Kingdom |
-| https://api.au-syd.bluemix.net | Sydney         |
-
-Login to your Bluemix account
-
-   ```
-cf login
-   ```
-
-From within the *get-started-php* directory push your app to Bluemix
-   ```
-cf push
-   ```
-
-This can take a minute. If there is an error in the deployment process you can use the command `cf logs <Your-App-Name> --recent` to troubleshoot.
-
-When deployment completes you should a message indicating that your app is running.  View your app at the URL listed in the output of the push command.  You can also issue the
-  ```
-cf apps
-  ```
-command to view your apps status and see the URL.
-
-## 5. Add a database
-
-Next, we'll add a NoSQL database to this application and set up the application so that it can run locally and on Bluemix.
-
-1. Log in to Bluemix in your Browser. Browse to the `Dashboard`. Select your application by clicking on its name in the `Name` column.
-2. Click on `Connections` then `Connect new`.
-3. In the `Data & Analytics` section, select `Cloudant NoSQL DB` and `Create` the service.
-4. Select `Restage` when prompted. Bluemix will restart your application and provide the database credentials to your application using the `VCAP_SERVICES` environment variable. This environment variable is only available to the application when it is running on Bluemix.
-
-Environment variables enable you to separate deployment settings from your source code. For example, instead of hardcoding a database password, you can store this in an environment variable which you reference in your source code. [Learn more...](/docs/manageapps/depapps.html#app_env)
-
-## 6. Use the database
-
-We're now going to update your local code to point to this database. We'll create a json file that will store the credentials for the services the application will use. This file will get used ONLY when the application is running locally. When running in Bluemix, the credentials will be read from the VCAP_SERVICES environment variable.
-
-1. Create a file called `.env` in the `get-started-php` directory with the following content:
-  ```
-  CLOUDANT_HOST=
-  CLOUDANT_USERNAME=
-  CLOUDANT_PASSWORD=
-  ```
-
-2. Back in the Bluemix UI, select your App -> Connections -> Cloudant -> View Credentials
-
-3. Copy and paste just the `url` from the credentials to the `CLOUDANT_URL` field of the `.env` file and save the changes.  The result will be something like:
-  ```
-  CLOUDANT_HOST=abc...yz.cloudant.com
-  CLOUDANT_USERNAME=abc...yz
-  CLOUDANT_PASSWORD=445d...d1a
-  ```
-
-4. Run your application locally.
-  ```
-php -S localhost:8000
-  ```
-
-View your app at: http://localhost:8080. Any names you enter into the app will now get added to the database.
-
-Your local app and  the Bluemix app are sharing the database.  View your Bluemix app at the URL listed in the output of the push command from above.  Names you add from either app should appear in both when you refresh the browsers.
