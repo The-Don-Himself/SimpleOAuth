@@ -1,0 +1,18 @@
+---
+applications:
+ - name: Embersy SimpleOAuth Backend
+   random-route: true
+   memory: 128M
+   instances: 1
+   disk_quota: 1024M
+   env:
+     #BP_DEBUG: true
+     SYMFONY_ENV: prod
+     PHP_INI_SCAN_DIR: .bp-config/php/conf.d
+     MYSQL_HOST: localhost
+     MYSQL_PORT: 3306
+     MYSQL_USERNAME: root
+     MYSQL_PASSWORD: 
+     MYSQL_DB_NAME: simpleoauth_mysql
+     MONGODB_HOST: mongodb://localhost:27017
+     MONGODB_HOST: simpleoauth_mongodb
