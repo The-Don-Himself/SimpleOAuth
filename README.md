@@ -1,6 +1,6 @@
 # Simple OAuth
 
-This repository contains sample code to implement a simplified OAuth system in PHP using MongoDB and MySQL. You can read more about it on the [Compose Blog](https://compose.com/articles/search/?s=simpleoauth) which I suggest you read first.
+This repository contains sample code to implement a simplified OAuth system in PHP using MongoDB and MySQL. You can read more about it in the article [Simple OAuth With MongoDB & MySQL](https://campus-discounts.com/articles/13) which I suggest you read first.
 
 The code here is based on the  nifty [Embersy](https://github.com/campus-discounts/embersy) kickstart package for building ambitious web app. You can download that package and replace the backend with this one.
 
