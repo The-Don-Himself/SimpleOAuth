@@ -58,13 +58,21 @@ password: backendpassword
 * Please take a look at the source code, it is heavily commented alternatively visit http://localhost:8000/api/doc to get an overview of some of the api endpoints
 
 Create a sample user by posting data to endpoint http://localhost:8000/api/accounts
-Create an app developer profile by posting data to endpoint http://localhost:8000/api/developers
-Use developer profile to create an app by posting data to endpoint http://localhost:8000/api/developers/{developer_id}/apps
-Create a sample blog article by posting data to endpoint http://localhost:8000/api/articles
-Add to article by posting data to endpoint http://localhost:8000/api/articles/{article_id}/comments
-Install an app by posting data to endpoint http://localhost:8000/api/apps/{app_id}/install
-Try use app to post a new comment by posting a mutation to endpoint http://localhost:8000/graphql
-Notice that permissions were denied.
-Add permissions to app as described in the article.
-Try posting the comment again and notice success this time.
 
+Create an app developer profile by posting data to endpoint http://localhost:8000/api/developers
+
+Use developer profile to create an app by posting data to endpoint http://localhost:8000/api/developers/{developer_id}/apps
+
+Create a sample blog article by posting data to endpoint http://localhost:8000/api/articles
+
+Add to article by posting data to endpoint http://localhost:8000/api/articles/{article_id}/comments
+
+Install an app by posting data to endpoint http://localhost:8000/api/apps/{app_id}/install
+
+Try use app to post a new comment by posting a mutation to endpoint http://localhost:8000/graphql
+
+Notice that permissions were denied.
+
+Add permissions to app as described in the article.
+
+Try posting the comment again and notice success this time.
