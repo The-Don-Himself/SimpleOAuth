@@ -41,6 +41,18 @@ Install dependencies
 php composer.phar install
 ```
 
+Create MySQL Database, Tables & Indices 
+```
+php bin/console doctrine:database:create
+php bin/console doctrine:schema:update --force
+```
+
+Create MongoDB Database, Collections & Indices 
+```
+php bin/console doctrine:mongodb:schema:create 
+php bin/console doctrine:mongodb:schema:update 
+```
+
 Run the app
   ```
 php bin/console server:run
